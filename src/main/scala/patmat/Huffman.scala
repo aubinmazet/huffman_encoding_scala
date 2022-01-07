@@ -222,12 +222,12 @@ trait Huffman extends HuffmanInterface:
    * and then uses it to perform the actual encoding.
    */
   def quickEncode(tree: CodeTree)(text: List[Char]): List[Bit] =
-    def helper(subText: List[Char], table: CodeTable): List[Bit] =
+    def encode(subText: List[Char], table: CodeTable): List[Bit] =
       subText match {
-        case head :: tail => codeBits(table)(head) ::: helper(tail, table)
+        case x :: xs => codeBits(table)(x) ::: encode(xs, table)
         case Nil => Nil
       }
     val table = convert(tree)
-    helper(text, table)
+    encode(text, table)
 
 object Huffman extends Huffman
